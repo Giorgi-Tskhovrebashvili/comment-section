@@ -3,7 +3,6 @@ export interface Comment {
   text: string;
   author: string;
   timestamp: string | number;
-  replies: Comment[];
   count: number;
   isEditing: boolean;
   editedText: string;

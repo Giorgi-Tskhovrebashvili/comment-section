@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Comment } from "../../../types/common";
 import { Button, Input, Image, Popup } from "../..";
-import icon from "../../_atoms/Shape.png";
-import tag from "../../_atoms/Shape(1).png";
+import icon from "../../_atoms/Image/Shape.png";
+import tag from "../../_atoms/Image/Shape(1).png";
 
 const CommentSection = () => {
   const [newComment, setNewComment] = useState("");
@@ -12,7 +12,6 @@ const CommentSection = () => {
       text: `@ramsesmiron I couldn’t agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.`,
       author: "juliusomo",
       timestamp: new Date().toLocaleString(),
-      replies: [],
       count: 2,
       isEditing: false,
       editedText: "",
@@ -20,7 +19,7 @@ const CommentSection = () => {
   ]);
   const [show, setShow] = useState(false);
 
-  const handlePopupModal = () => setShow(true);
+  const handlePopupModal = () => setShow(!show);
 
   const addComment = () => {
     if (newComment.trim() !== "") {
@@ -31,7 +30,6 @@ const CommentSection = () => {
           text: newComment,
           author: "Giorgi",
           timestamp: new Date().toLocaleString(),
-          replies: [],
           count: 0,
           isEditing: false,
           editedText: "",
@@ -101,10 +99,12 @@ const CommentSection = () => {
     setComments((prev) => prev.filter((item) => item.id !== id));
   };
 
+  let savedComments = localStorage.getItem("comments");
+
   useEffect(() => {
-    const saveComment = localStorage.getItem("comments");
-    if (saveComment) {
-      setComments(JSON.parse(saveComment));
+    if (savedComments) {
+      const parsedComments = JSON.parse(savedComments);
+      setComments(parsedComments);
     }
   }, []);
 
@@ -113,7 +113,7 @@ const CommentSection = () => {
   }, [comments]);
 
   return (
-    <div className="flex flex-col items-center gap-[20px] w-[375px] m-auto bg-slate-100 p-[20px] xl:w-[100%] xl:h-[100vh] xl:gap-[50px]">
+    <div className="flex flex-col items-center gap-[20px] w-[375px] m-auto bg-slate-100 p-[20px] xl:w-[100%] xl:h-[100%] xl:gap-[50px]">
       <div>
         {comments.map((comment) => {
           return (
